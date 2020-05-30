@@ -1,0 +1,150 @@
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.swing.JOptionPane;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+
+public class AgeCalculator {
+
+	protected Shell AgeCalculator;
+	private Text textFieldYear;
+	private Text textFieldMonth;
+	private Text textFieldDay;
+	/**
+	 * @wbp.nonvisual location=90,259
+	 */
+
+   
+	/**
+	 * Launch the application.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		try {
+			AgeCalculator window = new AgeCalculator();
+			window.open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Open the window.
+	 */
+	public void open() {
+		Display display = Display.getDefault();
+		createContents();
+		AgeCalculator.open();
+		AgeCalculator.layout();
+		while (!AgeCalculator.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+	}
+
+	/**
+	 * Create contents of the window.
+	 */
+	protected void createContents() {
+		AgeCalculator = new Shell();
+		AgeCalculator.setSize(389, 262);
+		AgeCalculator.setText("Age Calculator");
+		
+		textFieldYear = new Text(AgeCalculator, SWT.BORDER);
+		textFieldYear.setBounds(159, 35, 76, 21);
+		
+		textFieldMonth = new Text(AgeCalculator, SWT.BORDER);
+		textFieldMonth.setBounds(159, 62, 76, 21);
+		
+		textFieldDay = new Text(AgeCalculator, SWT.BORDER);
+		textFieldDay.setBounds(159, 89, 76, 21);
+		
+		Label lblNewLabel = new Label(AgeCalculator, SWT.NONE);
+		lblNewLabel.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
+		lblNewLabel.setBounds(98, 68, 55, 15);
+		lblNewLabel.setText("MONTH :");
+		
+		Label lblNewLabel_1 = new Label(AgeCalculator, SWT.NONE);
+		lblNewLabel_1.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
+		lblNewLabel_1.setBounds(98, 99, 55, 15);
+		lblNewLabel_1.setText("     DAY :");
+		
+		Label lblNewLabel_2 = new Label(AgeCalculator, SWT.NONE);
+		lblNewLabel_2.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD | SWT.ITALIC));
+		lblNewLabel_2.setBounds(151, 0, 84, 15);
+		lblNewLabel_2.setText("Age Calculator");
+		
+		Button btnCalculate = new Button(AgeCalculator, SWT.NONE);
+		btnCalculate.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				try {
+					
+				int Year = Integer.parseInt(textFieldYear.getText());
+					
+				int Month = Integer.parseInt(textFieldMonth.getText());
+					
+				int Day = Integer.parseInt(textFieldDay.getText());
+				
+					
+					
+				Calendar cal = new GregorianCalendar(Year,Month,Day);
+			    Calendar now = new GregorianCalendar();
+			    
+			    if ((Month > 12) && (Day > 31) && (Year > 2019)) {
+			    	JOptionPane.showMessageDialog(null, "Sorry, Days can never be great than 31 and Months as well can never be greater than 12 and also you can never be born in the future! So, please enter day less than 31 and month less than 12 and year less than 2019.");
+			    }
+			    
+			    else if ((Month > 12) && (Day > 31)) {
+			    	JOptionPane.showMessageDialog(null, "Sorry, Days can never be great than 31 and Months as well can never be greater than 12! So, please enter day less than 31 and month less than 12.");
+			    }
+			    
+			    else if (Day > 31) {
+			    	JOptionPane.showMessageDialog(null, "Sorry, Days can never be great than 31! So, please enter day less than 31.");
+			    }
+			    
+			    else if (Year > 2019) {
+			    	JOptionPane.showMessageDialog(null, "Sorry you cannot be born in the future!");
+			    }
+			    
+			    else if (Month > 12) {
+			    	JOptionPane.showMessageDialog(null, "Sorry, Month can never be great than 12! So, please enter month less than 12.");
+			    }
+			    
+			    else if ((Month <= 12) && (Day <= 31) && (Year < 2019)) {
+			    
+			    	int res = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+			    	JOptionPane.showMessageDialog(null, +res);;
+			    
+			    }			    	
+			    
+				} catch (NumberFormatException e1) {
+					
+					JOptionPane.showMessageDialog(null, "Invalid Input! Please enter Integer!");
+				};
+			    
+			}
+		});
+		btnCalculate.setBounds(160, 126, 75, 25);
+		btnCalculate.setText("Calculate");
+		
+		Label lblYear = new Label(AgeCalculator, SWT.NONE);
+		lblYear.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
+		lblYear.setBounds(98, 41, 55, 15);
+		lblYear.setText("    YEAR :");	
+
+	}
+}
